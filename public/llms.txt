@@ -1,0 +1,30 @@
+# SEO Growthers
+
+> SEO Growthers es una agencia de marketing digital especializada en Web Development, SEO y Analytics. Ayudamos a empresas a maximizar su crecimiento digital con estrategias basadas en datos.
+
+## Pages
+
+- [Inicio - SEO Growthers](/): Impulsa tu negocio con SEO Growthers. Expertos en Web Development, SEO y Analytics para maximizar tu crecimiento digital.
+- [Blog - SEO Growthers](/blog): Articulos sobre desarrollo web, SEO, marketing digital, inteligencia artificial y estrategias de crecimiento.
+- [Servicios Premium - SEO Growthers](/services): Desarrollo web moderno, consultoria SEO, implementacion de IA y automatizacion. Transformamos ideas en soluciones digitales exitosas.
+- [Recursos - SEO Growthers](/resources): Guias, plantillas y herramientas gratuitas para potenciar tu estrategia de marketing digital y SEO.
+- [Herramientas - SEO Growthers](/tools): Descubre y compara las mejores herramientas de software recomendadas por SEO Growthers: SEO, Analytics, Marketing y mas.
+- [Sobre Nosotros - SEO Growthers](/about): Conoce al equipo de SEO Growthers. Agencia de SEO, desarrollo web y automatizacion con IA en Neuquen, Argentina. Mision, valores y trayectoria.
+- [Auditoria SEO Gratuita](/auditoria-seo-gratis): Solicita tu auditoria SEO gratuita. Analizamos tu sitio web y te entregamos un reporte profesional con errores tecnicos, oportunidades de keywords y plan de accion en 48 horas.
+- [Contacto - SEO Growthers](/contact): Contactanos por formulario, telefono o email. El equipo de SEO Growthers te respondera en 24 horas.
+- [Caso de Exito: Aluvalle](/services/success-cases/aluvalle-transformacion-digital): Como SEO Growthers transformo la presencia digital de Aluvalle, logrando un aumento del 300% en trafico organico.
+- [SEO en Neuquen](/services/seo-neuquen): Agencia SEO en Neuquen Capital. Posicionamiento web local, Google Maps, keywords locales y reportes mensuales. Auditoria gratis.
+- [Desarrollo Web Argentina](/services/desarrollo-web-argentina): Desarrollo web profesional. Landing pages desde $800 USD, sitios corporativos y tiendas online con SEO incluido y panel de administracion.
+- [Automatizacion con IA](/services/automatizacion-ia): Automatizacion empresarial con inteligencia artificial. Chatbots 24/7, embudos de venta, generacion de contenido y agentes de IA autonomos.
+- [Diseno de Landing Pages](/services/landing-pages): Diseno profesional de landing pages de alta conversion. Optimizadas para Google Ads, captura de leads y ventas. Desde $800 USD con dominio, hosting y SSL incluido.
+- [Web Corporativa](/services/web-corporativa): Diseno de sitios web corporativos profesionales. Presencia digital de alto impacto con SEO avanzado, CMS y correos corporativos. Desde $1,500 USD.
+- [Tienda Online E-Commerce](/services/ecommerce): Desarrollo de tiendas online con Mercado Pago, gestion de stock, envios automaticos y diseno responsive. Desde $2,500 USD.
+- [Marketing Digital](/services/marketing-digital): Servicios de marketing digital: SEO organico, Google Ads, publicidad en redes sociales, email marketing y analytics. Resultados medibles y ROI garantizado.
+- [Portfolio Web](/portfolio): Galeria de proyectos web realizados: landing pages de alta conversion, sitios corporativos y tiendas online con resultados medibles.
+- [Automatizacion RPA](/services/rpa-automatizacion): Automatizacion RPA para empresas. Bots que eliminan tareas repetitivas, reducen errores humanos y operan 24/7. Conciliacion bancaria, facturas y mas.
+- [Integraciones No-Code](/services/integraciones-no-code): Integraciones no-code para empresas. Conectamos tus apps con Make, Zapier y Airtable. Automatizacion de flujos de trabajo en 48-72 horas sin programar.
+- [Agentes de IA Autonomos](/services/ia-agentica-agentes): Desarrollo de agentes de IA autonomos para empresas. Colaboradores digitales que razonan, usan herramientas y resuelven problemas complejos.
+- [Casos de Exito](/services/success-cases): Proyectos reales con resultados medibles. +300% trafico organico, +358% conversion. SEO, desarrollo web y automatizacion con IA.
+- [Caso de Exito: InmoFuture](/services/success-cases/inmofuture-plataforma-inmobiliaria): Plataforma inmobiliaria premium con buscador inteligente, CRM integrado. LCP de 4.5s a 1.2s, conversion de 1.2% a 5.5%.
+- [Politica de Privacidad](/privacy): Politica de privacidad y proteccion de datos de SEO Growthers.
+- [Terminos de Servicio](/terms): Terminos y condiciones de uso de los servicios de SEO Growthers.
