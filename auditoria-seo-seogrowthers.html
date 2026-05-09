@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Auditoría SEO — seogrowthers.com</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161923;
+    --surface2: #1e2230;
+    --border: #2a3047;
+    --text: #e8eaf0;
+    --muted: #7a849a;
+    --green: #22c55e;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --score-color: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(13,15,20,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; gap: 0; overflow-x: auto; }
+  nav a { color: var(--muted); font-size: 13px; padding: 14px 16px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  nav a:hover { color: var(--text); border-bottom-color: var(--blue); text-decoration: none; }
+
+  /* LAYOUT */
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  section { margin-bottom: 3rem; }
+
+  /* HEADER */
+  .header { text-align: center; padding: 4rem 2rem 3rem; background: linear-gradient(135deg, #0d0f14 0%, #1a1f35 50%, #0d0f14 100%); border-bottom: 1px solid var(--border); }
+  .header .url { color: var(--muted); font-size: 14px; margin-bottom: 1rem; }
+  .header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .header .date { color: var(--muted); font-size: 13px; margin-bottom: 2.5rem; }
+  .score-ring { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 160px; height: 160px; border-radius: 50%; border: 6px solid var(--score-color); background: rgba(245,158,11,0.05); margin-bottom: 1rem; }
+  .score-ring .num { font-size: 3.5rem; font-weight: 900; color: var(--score-color); line-height: 1; }
+  .score-ring .label { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+  .score-tag { display: inline-block; padding: 6px 18px; border-radius: 999px; font-size: 14px; font-weight: 700; background: rgba(245,158,11,0.15); color: var(--yellow); border: 1px solid rgba(245,158,11,0.3); }
+
+  /* SUMMARY CARDS */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center; }
+  .card .num { font-size: 2.5rem; font-weight: 900; line-height: 1; }
+  .card .label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .card.red .num { color: var(--red); }
+  .card.yellow .num { color: var(--yellow); }
+  .card.green .num { color: var(--green); }
+  .card.blue .num { color: var(--blue); }
+
+  /* SECTION HEADER */
+  h2.section-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  h2.section-title .icon { font-size: 1.2rem; }
+
+  /* PRIORITY FIXES */
+  .fix { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; border-left: 4px solid; }
+  .fix.critical { border-left-color: var(--red); }
+  .fix.warning { border-left-color: var(--yellow); }
+  .fix-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1rem; }
+  .fix-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0; }
+  .fix.critical .fix-num { background: rgba(239,68,68,0.15); color: var(--red); }
+  .fix.warning .fix-num { background: rgba(245,158,11,0.15); color: var(--yellow); }
+  .fix-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+  .fix-why { font-size: 13px; color: var(--muted); }
+  .fix-solution { background: var(--bg); border-radius: 10px; padding: 1rem 1.2rem; margin-top: 0.75rem; }
+  .fix-solution .how { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+  pre { background: #0a0c11; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; font-size: 12.5px; overflow-x: auto; margin-top: 8px; color: #a8d8a8; font-family: 'Cascadia Code', 'Fira Code', monospace; }
+  code { background: rgba(255,255,255,0.06); border-radius: 4px; padding: 2px 6px; font-size: 12.5px; font-family: 'Cascadia Code', 'Fira Code', monospace; }
+
+  /* CATEGORY BREAKDOWN */
+  .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; }
+  .category { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
+  .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .cat-name { font-weight: 700; font-size: 1rem; }
+  .cat-score { font-weight: 900; font-size: 1.2rem; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 99px; margin-bottom: 1.2rem; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+  .findings { list-style: none; }
+  .findings li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .findings li:last-child { border-bottom: none; }
+  .badge { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; margin-top: 1px; }
+  .badge.ok { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge.warn { background: rgba(245,158,11,0.15); color: var(--yellow); }
+  .badge.err { background: rgba(239,68,68,0.15); color: var(--red); }
+
+  /* TECHNICAL TABLE */
+  .tech-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tech-table th { text-align: left; padding: 10px 14px; color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); }
+  .tech-table td { padding: 10px 14px; border-bottom: 1px solid rgba(42,48,71,0.5); }
+  .tech-table tr:last-child td { border-bottom: none; }
+  .tech-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .status-ok { color: var(--green); font-weight: 700; font-size: 12px; }
+  .status-warn { color: var(--yellow); font-weight: 700; font-size: 12px; }
+  .status-err { color: var(--red); font-weight: 700; font-size: 12px; }
+
+  details summary { cursor: pointer; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-weight: 600; font-size: 14px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  details summary::after { content: '▼'; font-size: 11px; color: var(--muted); }
+  details[open] summary::after { content: '▲'; }
+  details[open] summary { border-radius: 10px 10px 0 0; border-bottom: none; }
+  .details-body { background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; overflow: hidden; }
+
+  @media (max-width: 768px) {
+    .header h1 { font-size: 1.5rem; }
+    .categories { grid-template-columns: 1fr; }
+    .container { padding: 1rem; }
+  }
+
+  @media print {
+    nav { display: none; }
+    .fix, .category { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#resumen">Resumen</a>
+  <a href="#prioridades">Top 5 Correcciones</a>
+  <a href="#categorias">Categorías</a>
+  <a href="#tecnico">Detalle Técnico</a>
+</nav>
+
+<!-- HEADER -->
+<div class="header" id="inicio">
+  <div class="url">🌐 https://seogrowthers.com/</div>
+  <h1>Auditoría SEO</h1>
+  <div class="date">24 de abril de 2026 · Análisis completo de 8 categorías</div>
+  <div class="score-ring">
+    <span class="num">57</span>
+    <span class="label">/ 100</span>
+  </div>
+  <div><span class="score-tag">⚠ Mejorable</span></div>
+</div>
+
+<div class="container">
+
+  <!-- RESUMEN EJECUTIVO -->
+  <section id="resumen">
+    <h2 class="section-title"><span class="icon">📊</span> Resumen Ejecutivo</h2>
+    <div class="cards">
+      <div class="card blue">
+        <div class="num">57</div>
+        <div class="label">Puntuación Global</div>
+      </div>
+      <div class="card red">
+        <div class="num">6</div>
+        <div class="label">Problemas Críticos</div>
+      </div>
+      <div class="card yellow">
+        <div class="num">8</div>
+        <div class="label">Advertencias</div>
+      </div>
+      <div class="card green">
+        <div class="num">12</div>
+        <div class="label">Tests Aprobados</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP 5 CORRECCIONES -->
+  <section id="prioridades">
+    <h2 class="section-title"><span class="icon">🔥</span> Top 5 Correcciones Prioritarias</h2>
+
+    <div class="fix critical">
+      <div class="fix-header">
+        <div class="fix-num">1</div>
+        <div>
+          <div class="fix-title">SEOHead usa el dominio incorrecto <code>agency-cms.com</code></div>
+          <div class="fix-why">Impacto crítico — Todas las URLs canónicas y de Open Graph generadas para artículos y páginas del blog apuntan a <code>https://agency-cms.com/...</code> en lugar de <code>https://seogrowthers.com/...</code>. Google indexa el dominio equivocado y las vistas previas en redes sociales son incorrectas.</div>
+        </div>
+      </div>
+      <div class="fix-solution">
+        <div class="how">Cómo corregirlo — <code>src/components/shared/SEOHead.jsx</code>, línea 19</div>
+        <pre>// ❌ Antes
+const domain = 'https://agency-cms.com';
+
+// ✅ Después
+const domain = 'https://seogrowthers.com';</pre>
+      </div>
+    </div>
+
+    <div class="fix critical">
+      <div class="fix-header">
+        <div class="fix-num">2</div>
+        <div>
+          <div class="fix-title">Sitemap no declarado en robots.txt — Google no lo autodescubre</div>
+          <div class="fix-why">El <code>robots.txt</code> tiene la URL del sitemap comentada. Aunque el sitemap existe (<code>/sitemap.xml</code>, 43 URLs), Google no lo encontrará automáticamente, lo que ralentiza la indexación de tus 43 páginas.</div>
+        </div>
+      </div>
+      <div class="fix-solution">
+        <div class="how">Cómo corregirlo — <code>robots.txt</code> (descomenta la línea del Sitemap)</div>
+        <pre>User-agent: *
+Allow: /
+
+Sitemap: https://seogrowthers.com/sitemap.xml</pre>
+      </div>
+    </div>
+
+    <div class="fix critical">
+      <div class="fix-header">
+        <div class="fix-num">3</div>
+        <div>
+          <div class="fix-title">www.seogrowthers.com no redirige al dominio principal — riesgo de contenido duplicado</div>
+          <div class="fix-why"><code>https://www.seogrowthers.com/</code> devuelve HTTP 200 con contenido propio (servidor Hostinger), mientras que <code>https://seogrowthers.com/</code> está en Vercel. Google puede tratar ambos como sitios distintos con el mismo contenido, dividiendo la autoridad de tu dominio.</div>
+        </div>
+      </div>
+      <div class="fix-solution">
+        <div class="how">Cómo corregirlo — Configurar redirección 301 en Hostinger/Vercel</div>
+        <pre># En Vercel (vercel.json) — añade esta regla:
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.seogrowthers.com" }],
+      "destination": "https://seogrowthers.com/:path*",
+      "permanent": true
+    }
+  ]
+}
+
+# También configurar en el panel DNS de Hostinger:
+# Añadir redirección 301 de www → no-www</pre>
+      </div>
+    </div>
+
+    <div class="fix critical">
+      <div class="fix-header">
+        <div class="fix-num">4</div>
+        <div>
+          <div class="fix-title">Página de Servicios sin meta description, OG tags ni schema</div>
+          <div class="fix-why">La página <code>/services</code> solo tiene <code>&lt;title&gt;</code>. Sin meta description Google extrae texto aleatorio del contenido. Sin OG tags, el enlace compartido en WhatsApp/LinkedIn no muestra imagen ni descripción. Sin schema <code>Service</code>, no puede aparecer en resultados enriquecidos.</div>
+        </div>
+      </div>
+      <div class="fix-solution">
+        <div class="how">Cómo corregirlo — <code>src/pages/Services.jsx</code>, dentro del bloque &lt;Helmet&gt; (línea 71–73)</div>
+        <pre>&lt;Helmet&gt;
+  &lt;title&gt;Servicios de SEO, Desarrollo Web y Automatización | SEO Growthers&lt;/title&gt;
+  &lt;meta name="description" content="Descubre nuestros servicios premium: Desarrollo Web de alto rendimiento, Marketing Digital con ROI real y Automatización con IA. Crece con SEO Growthers." /&gt;
+  &lt;meta property="og:title" content="Servicios Premium | SEO Growthers" /&gt;
+  &lt;meta property="og:description" content="Desarrollo Web, SEO, Marketing Digital y Automatización con IA. La agencia que impulsa tu crecimiento digital." /&gt;
+  &lt;meta property="og:image" content="https://seogrowthers.com/images/services/og-services.jpg" /&gt;
+  &lt;meta property="og:url" content="https://seogrowthers.com/services" /&gt;
+  &lt;meta property="og:type" content="website" /&gt;
+  &lt;meta name="twitter:card" content="summary_large_image" /&gt;
+  &lt;link rel="canonical" href="https://seogrowthers.com/services" /&gt;
+  &lt;script type="application/ld+json"&gt;{JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Servicios Digitales de SEO Growthers",
+    "provider": { "@type": "Organization", "name": "SEO Growthers" },
+    "description": "Web Development, Marketing Digital y Automatización con IA.",
+    "url": "https://seogrowthers.com/services",
+    "areaServed": { "@type": "Country", "name": "Argentina" }
+  })}&lt;/script&gt;
+&lt;/Helmet&gt;</pre>
+      </div>
+    </div>
+
+    <div class="fix warning">
+      <div class="fix-header">
+        <div class="fix-num">5</div>
+        <div>
+          <div class="fix-title">Meta description del sitio demasiado corta (104 chars) y sin imagen OG en Homepage</div>
+          <div class="fix-why">La meta description del <code>index.html</code> tiene 104 caracteres (el ideal es 150–160). Además, la homepage no define <code>og:image</code>, lo que resulta en vistas previas vacías al compartir en redes sociales.</div>
+        </div>
+      </div>
+      <div class="fix-solution">
+        <div class="how">Cómo corregirlo — <code>src/pages/Home.jsx</code>, bloque &lt;Helmet&gt; (línea 55–65)</div>
+        <pre>&lt;!-- Añadir og:image y ampliar description --&gt;
+&lt;meta name="description" content="SEO Growthers es la agencia experta en Web Development, SEO y Analytics. Potencia tu crecimiento digital con estrategias basadas en datos reales y resultados medibles." /&gt;
+&lt;meta property="og:image" content="https://seogrowthers.com/images/og-home.jpg" /&gt;
+&lt;meta property="og:image:width" content="1200" /&gt;
+&lt;meta property="og:image:height" content="630" /&gt;
+&lt;meta name="twitter:card" content="summary_large_image" /&gt;
+&lt;meta name="twitter:image" content="https://seogrowthers.com/images/og-home.jpg" /&gt;</pre>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CATEGORÍAS -->
+  <section id="categorias">
+    <h2 class="section-title"><span class="icon">📋</span> Desglose por Categoría</h2>
+    <div class="categories">
+
+      <!-- META TAGS -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">🏷 Meta Tags</div>
+          <div class="cat-score" style="color: var(--yellow);">55/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:55%; background: var(--yellow);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> Title presente y longitud correcta (48 chars)</li>
+          <li><span class="badge ok">✓</span> Meta viewport configurado</li>
+          <li><span class="badge ok">✓</span> lang="es" declarado en &lt;html&gt;</li>
+          <li><span class="badge warn">!</span> Meta description corta: 104 chars (ideal: 150–160)</li>
+          <li><span class="badge err">✗</span> Canonical ausente en index.html (shell de la SPA)</li>
+          <li><span class="badge err">✗</span> Services.jsx: sin meta description</li>
+          <li><span class="badge err">✗</span> SEOHead.jsx: dominio incorrecto (agency-cms.com)</li>
+          <li><span class="badge warn">!</span> meta generator revela stack: "Hostinger Horizons"</li>
+        </ul>
+      </div>
+
+      <!-- HEADINGS -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">📝 Headings</div>
+          <div class="cat-score" style="color: var(--yellow);">65/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:65%; background: var(--yellow);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> H1 presente en todas las páginas principales</li>
+          <li><span class="badge ok">✓</span> Jerarquía H1→H2→H3 correcta en Services</li>
+          <li><span class="badge ok">✓</span> H1 de Services: "Dominio Digital de Vanguardia"</li>
+          <li><span class="badge warn">!</span> H1 no contiene keyword transaccional (ej. "agencia SEO")</li>
+          <li><span class="badge warn">!</span> Headings renderizados por JS — Googlebot necesita dos pasos de crawl</li>
+          <li><span class="badge warn">!</span> Contact: H1 críptico "Sincroniza con el Nodo Central" (no SEO-friendly)</li>
+        </ul>
+      </div>
+
+      <!-- IMÁGENES -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">🖼 Imágenes</div>
+          <div class="cat-score" style="color: var(--yellow);">65/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:65%; background: var(--yellow);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> Imágenes de servicios tienen alt descriptivo (alt={category.title})</li>
+          <li><span class="badge ok">✓</span> Preload del LCP image configurado</li>
+          <li><span class="badge ok">✓</span> WebP usado para imagen de fondo (/images/fondo/site-background.webp)</li>
+          <li><span class="badge ok">✓</span> Preconnect a images.unsplash.com configurado</li>
+          <li><span class="badge warn">!</span> Imágenes desde Unsplash (CDN externo) — dependencia de terceros</li>
+          <li><span class="badge warn">!</span> Sin formato AVIF (solo WebP para algunos recursos)</li>
+          <li><span class="badge err">✗</span> No hay og:image definida en la Homepage</li>
+        </ul>
+      </div>
+
+      <!-- ENLACES -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">🔗 Enlaces</div>
+          <div class="cat-score" style="color: var(--green);">80/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:80%; background: var(--green);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> Todas las páginas principales responden HTTP 200</li>
+          <li><span class="badge ok">✓</span> Sin enlaces rotos (404) en páginas principales</li>
+          <li><span class="badge ok">✓</span> Links externos con rel="noopener noreferrer" ✓</li>
+          <li><span class="badge ok">✓</span> 43 URLs en sitemap sin errores</li>
+          <li><span class="badge warn">!</span> CTA "Explorar Servicios" enlaza a dominio externo (studioseogrowthers.vercel.app) sin contexto</li>
+          <li><span class="badge warn">!</span> Textos ancla genéricos en algunos CTAs</li>
+        </ul>
+      </div>
+
+      <!-- OPEN GRAPH -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">📱 Open Graph & Social</div>
+          <div class="cat-score" style="color: var(--red);">30/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:30%; background: var(--red);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> og:title definido en Homepage</li>
+          <li><span class="badge ok">✓</span> og:description definido en Homepage</li>
+          <li><span class="badge ok">✓</span> og:url definido en Homepage</li>
+          <li><span class="badge err">✗</span> og:image ausente en Homepage — vistas previas sin imagen</li>
+          <li><span class="badge err">✗</span> twitter:card ausente en Homepage y Services</li>
+          <li><span class="badge err">✗</span> Services: sin ningún tag OG</li>
+          <li><span class="badge err">✗</span> SEOHead usa dominio incorrecto para OG:URL en artículos</li>
+          <li><span class="badge warn">!</span> Sin og:locale declarado en Homepage directamente</li>
+        </ul>
+      </div>
+
+      <!-- SCHEMA -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">🧩 Schema / JSON-LD</div>
+          <div class="cat-score" style="color: var(--yellow);">50/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:50%; background: var(--yellow);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> Organization schema en Homepage (nombre, URL, logo, teléfono)</li>
+          <li><span class="badge ok">✓</span> BlogPosting / NewsArticle schema implementado en artículos (via SEOHead)</li>
+          <li><span class="badge ok">✓</span> BreadcrumbList schema disponible en utilidades</li>
+          <li><span class="badge err">✗</span> Services: sin schema Service</li>
+          <li><span class="badge err">✗</span> Contact: sin schema LocalBusiness</li>
+          <li><span class="badge warn">!</span> Organization schema: sin sameAs (redes sociales)</li>
+          <li><span class="badge warn">!</span> FAQ schema disponible pero no implementado en Home (tiene sección FAQ)</li>
+        </ul>
+      </div>
+
+      <!-- TÉCNICO -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">⚙ Técnico</div>
+          <div class="cat-score" style="color: var(--yellow);">55/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:55%; background: var(--yellow);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> HTTPS activo (HTTP 308 redirige a HTTPS)</li>
+          <li><span class="badge ok">✓</span> Tiempo de respuesta: 0.506s (Vercel CDN, cache HIT)</li>
+          <li><span class="badge ok">✓</span> Strict-Transport-Security habilitado (HSTS)</li>
+          <li><span class="badge ok">✓</span> sitemap.xml presente con 43 URLs</li>
+          <li><span class="badge ok">✓</span> robots.txt presente, permite todos los crawlers</li>
+          <li><span class="badge ok">✓</span> Favicon configurado (/logo.png)</li>
+          <li><span class="badge err">✗</span> Sitemap NO declarado en robots.txt (línea comentada)</li>
+          <li><span class="badge err">✗</span> www.seogrowthers.com devuelve 200 (no redirige) — duplicado</li>
+          <li><span class="badge err">✗</span> React SPA sin SSR — contenido cargado por JavaScript</li>
+        </ul>
+      </div>
+
+      <!-- CONTENIDO -->
+      <div class="category">
+        <div class="cat-header">
+          <div class="cat-name">📄 Contenido</div>
+          <div class="cat-score" style="color: var(--yellow);">60/100</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%; background: var(--yellow);"></div></div>
+        <ul class="findings">
+          <li><span class="badge ok">✓</span> 43 páginas indexables en sitemap</li>
+          <li><span class="badge ok">✓</span> Blog y News con contenido extenso</li>
+          <li><span class="badge ok">✓</span> Estructura de servicios bien detallada (12 sub-servicios)</li>
+          <li><span class="badge warn">!</span> HTML inicial: solo 3,187 bytes — todo el contenido depende de JS</li>
+          <li><span class="badge warn">!</span> H1 de Contact no describe el servicio ("Sincroniza con el Nodo Central")</li>
+          <li><span class="badge warn">!</span> Title mezcla idiomas: "Web Development, SEO & Analytics" en inglés</li>
+          <li><span class="badge err">✗</span> Meta description del index.html: 104 chars (necesita 150–160)</li>
+          <li><span class="badge err">✗</span> Contenido del sitio invisible hasta que JS ejecuta</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DETALLE TÉCNICO -->
+  <section id="tecnico">
+    <h2 class="section-title"><span class="icon">🔍</span> Detalle Técnico Completo</h2>
+
+    <details>
+      <summary>Información del Servidor y Rendimiento</summary>
+      <div class="details-body">
+        <table class="tech-table">
+          <thead><tr><th>Parámetro</th><th>Valor</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>HTTP Status</td><td>200 OK</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>Tiempo de respuesta total</td><td>0.506 s</td><td class="status-ok">✓ Bueno</td></tr>
+            <tr><td>Tiempo de conexión TCP</td><td>0.306 s</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>Servidor</td><td>Vercel (CDN)</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>Cache</td><td>X-Vercel-Cache: HIT</td><td class="status-ok">✓ Activo</td></tr>
+            <tr><td>HTTPS</td><td>Sí (HTTP redirige 308)</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>HSTS</td><td>max-age=63072000</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>Tamaño HTML inicial</td><td>3,187 bytes</td><td class="status-warn">! SPA — contenido en JS</td></tr>
+            <tr><td>Content-Type</td><td>text/html; charset=utf-8</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>www redirige a no-www</td><td>No — devuelve 200 independiente</td><td class="status-err">✗ Duplicado</td></tr>
+            <tr><td>Plataforma www</td><td>Hostinger (diferente servidor)</td><td class="status-err">✗ Riesgo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <br>
+
+    <details>
+      <summary>Meta Tags — index.html (shell)</summary>
+      <div class="details-body">
+        <table class="tech-table">
+          <thead><tr><th>Tag</th><th>Valor</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>lang</td><td>es</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>&lt;title&gt;</td><td>SEO Growthers - Web Development, SEO & Analytics (48 chars)</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>meta description</td><td>"SEO Growthers - Agencia experta en Web Development, SEO y Analytics para potenciar tu crecimiento digital." (104 chars)</td><td class="status-warn">! Corta (necesita 150–160)</td></tr>
+            <tr><td>meta viewport</td><td>width=device-width, initial-scale=1.0, viewport-fit=cover</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>meta robots</td><td>No declarado (default: index, follow)</td><td class="status-ok">✓ OK</td></tr>
+            <tr><td>canonical</td><td>No declarado en shell</td><td class="status-warn">! Ausente en HTML base</td></tr>
+            <tr><td>og:title</td><td>No en shell (declarado vía React Helmet en pages)</td><td class="status-warn">! Solo con JS</td></tr>
+            <tr><td>og:image</td><td>No declarado en Homepage</td><td class="status-err">✗ Ausente</td></tr>
+            <tr><td>twitter:card</td><td>No en Homepage</td><td class="status-err">✗ Ausente</td></tr>
+            <tr><td>meta generator</td><td>Hostinger Horizons</td><td class="status-warn">! Revela stack</td></tr>
+            <tr><td>favicon</td><td>/logo.png (PNG, no .ico)</td><td class="status-ok">✓ OK</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <br>
+
+    <details>
+      <summary>Estado de Páginas Principales</summary>
+      <div class="details-body">
+        <table class="tech-table">
+          <thead><tr><th>URL</th><th>HTTP</th><th>Title</th><th>Description</th><th>OG</th><th>Schema</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>/</code></td>
+              <td class="status-ok">200</td>
+              <td class="status-ok">✓</td>
+              <td class="status-warn">! Corta</td>
+              <td class="status-warn">! Sin imagen</td>
+              <td class="status-ok">✓ Organization</td>
+            </tr>
+            <tr>
+              <td><code>/services</code></td>
+              <td class="status-ok">200</td>
+              <td class="status-ok">✓</td>
+              <td class="status-err">✗ Ausente</td>
+              <td class="status-err">✗ Ausente</td>
+              <td class="status-err">✗ Ausente</td>
+            </tr>
+            <tr>
+              <td><code>/blog</code></td>
+              <td class="status-ok">200</td>
+              <td class="status-ok">✓</td>
+              <td class="status-ok">✓ (via SEOHead)</td>
+              <td class="status-warn">! Dominio incorrecto</td>
+              <td class="status-ok">✓ BlogPosting</td>
+            </tr>
+            <tr>
+              <td><code>/news</code></td>
+              <td class="status-ok">200</td>
+              <td class="status-ok">✓</td>
+              <td class="status-ok">✓</td>
+              <td class="status-warn">! Dominio incorrecto</td>
+              <td class="status-ok">✓</td>
+            </tr>
+            <tr>
+              <td><code>/contact</code></td>
+              <td class="status-ok">200</td>
+              <td class="status-ok">✓</td>
+              <td class="status-ok">✓</td>
+              <td class="status-err">✗ Ausente</td>
+              <td class="status-err">✗ Sin LocalBusiness</td>
+            </tr>
+            <tr>
+              <td><code>/resources</code></td>
+              <td class="status-ok">200</td>
+              <td class="status-ok">✓</td>
+              <td class="status-ok">✓</td>
+              <td class="status-warn">! Revisar</td>
+              <td class="status-warn">! Revisar</td>
+            </tr>
+            <tr>
+              <td><code>/tools</code></td>
+              <td class="status-ok">200</td>
+              <td class="status-ok">✓</td>
+              <td class="status-ok">✓</td>
+              <td class="status-warn">! Revisar</td>
+              <td class="status-warn">! Revisar</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <br>
+
+    <details>
+      <summary>robots.txt y Sitemap</summary>
+      <div class="details-body">
+        <table class="tech-table">
+          <thead><tr><th>Elemento</th><th>Estado</th><th>Detalle</th></tr></thead>
+          <tbody>
+            <tr><td>robots.txt</td><td class="status-ok">✓ Existe</td><td>User-agent: * Allow: /</td></tr>
+            <tr><td>Sitemap en robots.txt</td><td class="status-err">✗ Comentado</td><td># Sitemap: https://yourdomain.com/sitemap.xml (línea comentada, URL placeholder)</td></tr>
+            <tr><td>sitemap.xml</td><td class="status-ok">✓ Existe</td><td>43 URLs — homepage, blog (23), news (11), páginas (9)</td></tr>
+            <tr><td>Prioridades sitemap</td><td class="status-ok">✓ Correctas</td><td>Homepage: 1.0 / Blog: 0.9 / Services: 0.8 / Contact: 0.5</td></tr>
+            <tr><td>Última modificación</td><td class="status-ok">✓ Reciente</td><td>19 de abril de 2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <br>
+
+    <details>
+      <summary>Análisis de la SPA React — Impacto SEO</summary>
+      <div class="details-body">
+        <table class="tech-table">
+          <thead><tr><th>Aspecto</th><th>Estado</th><th>Detalle</th></tr></thead>
+          <tbody>
+            <tr><td>Renderizado</td><td class="status-warn">! CSR (Client-Side)</td><td>El HTML inicial tiene 3KB. Todo el contenido se carga vía JS. Google puede renderizarlo pero con delay.</td></tr>
+            <tr><td>React Helmet Async</td><td class="status-ok">✓ Implementado</td><td>Meta tags dinámicos por página vía react-helmet-async</td></tr>
+            <tr><td>Dominio en SEOHead</td><td class="status-err">✗ Incorrecto</td><td>Hardcoded 'https://agency-cms.com' — debe ser 'https://seogrowthers.com'</td></tr>
+            <tr><td>Vite + React</td><td class="status-ok">✓ Build optimizado</td><td>Assets con hash, code splitting, modulepreload</td></tr>
+            <tr><td>Preload LCP</td><td class="status-ok">✓ Configurado</td><td>Imagen hero preloaded para mejorar Core Web Vitals</td></tr>
+            <tr><td>Preconnect</td><td class="status-ok">✓ Configurado</td><td>fonts.googleapis.com, fonts.gstatic.com, images.unsplash.com, supabase</td></tr>
+            <tr><td>SSR / SSG</td><td class="status-err">✗ No implementado</td><td>Considerar Vite SSR o migrar a Next.js para máximo SEO</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+  </section>
+
+  <div style="text-align:center; padding: 3rem 0 1rem; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border);">
+    Auditoría generada el 24 de abril de 2026 · seogrowthers.com · Puntuación global: <strong style="color:var(--yellow)">57/100</strong>
+  </div>
+
+</div>
+
+</body>
+</html>

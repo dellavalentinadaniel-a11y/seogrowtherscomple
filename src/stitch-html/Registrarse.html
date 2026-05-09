@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;family=Space+Grotesk:wght@300;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#d6a9ff",
+                    "secondary-fixed": "#f0dbff",
+                    "surface-bright": "#383843",
+                    "tertiary-container": "#f7bdff",
+                    "primary-container": "#00e5ff",
+                    "inverse-primary": "#006875",
+                    "surface-container-high": "#282933",
+                    "surface-container": "#1e1f29",
+                    "surface-container-highest": "#33343e",
+                    "inverse-surface": "#e3e1ef",
+                    "primary-fixed": "#9cf0ff",
+                    "on-primary-fixed-variant": "#004f58",
+                    "surface-tint": "#00daf3",
+                    "primary": "#c3f5ff",
+                    "surface-container-low": "#1a1b24",
+                    "surface-dim": "#12131c",
+                    "outline": "#849396",
+                    "secondary": "#ddb7ff",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e3e1ef",
+                    "secondary-fixed-dim": "#ddb7ff",
+                    "secondary-container": "#6f00be",
+                    "on-surface": "#e3e1ef",
+                    "tertiary-fixed": "#fcd6ff",
+                    "on-surface-variant": "#bac9cc",
+                    "outline-variant": "#3b494c",
+                    "on-secondary-fixed-variant": "#6900b3",
+                    "error-container": "#93000a",
+                    "on-primary-container": "#00626e",
+                    "on-tertiary": "#4e155d",
+                    "on-secondary": "#490080",
+                    "on-error": "#690005",
+                    "tertiary": "#ffe5ff",
+                    "surface-container-lowest": "#0d0e17",
+                    "inverse-on-surface": "#2f303a",
+                    "error": "#ffb4ab",
+                    "background": "#12131c",
+                    "surface-variant": "#33343e",
+                    "primary-fixed-dim": "#00daf3",
+                    "on-tertiary-fixed": "#340042",
+                    "tertiary-fixed-dim": "#f3aeff",
+                    "surface": "#12131c",
+                    "on-tertiary-container": "#7c428a",
+                    "on-tertiary-fixed-variant": "#682f76",
+                    "on-secondary-fixed": "#2c0051",
+                    "on-primary": "#00363d",
+                    "on-primary-fixed": "#001f24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .circuit-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(195, 245, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+        }
+        .glass-panel {
+            background: rgba(26, 27, 36, 0.6);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-background selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- Supressing TopAppBar and Nav Shells for Transactional Screen -->
+<main class="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 circuit-bg pointer-events-none"></div>
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-secondary-container/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary-container/10 rounded-full blur-[120px]"></div>
+<!-- Auth Container -->
+<div class="w-full max-w-5xl grid md:grid-cols-2 gap-0 rounded-xl overflow-hidden shadow-2xl relative z-10 border border-outline-variant/10">
+<!-- Left Side: Visual Narrative -->
+<div class="hidden md:flex flex-col justify-between p-12 bg-surface-container-low relative">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-12">
+<span class="material-symbols-outlined text-primary-container text-3xl">terminal</span>
+<span class="font-headline font-bold tracking-widest text-xl text-primary">NEURAL_WORKSPACE</span>
+</div>
+<h1 class="font-headline text-5xl font-bold tracking-tight text-on-surface leading-tight">
+                        Únete a la <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-container to-secondary">Evolución</span>
+</h1>
+<p class="mt-6 text-on-surface-variant text-lg max-w-xs leading-relaxed">
+                        Accede al Laboratorio de Arquitectura donde el código se encuentra con la conciencia artificial.
+                    </p>
+</div>
+<div class="relative z-10 mt-12">
+<div class="p-6 rounded-xl glass-panel border border-white/5 space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<span class="font-label text-xs tracking-widest uppercase text-primary">System Online</span>
+</div>
+<div class="font-mono text-sm text-on-surface-variant opacity-60">
+                            &gt; initializing_neural_link...<br/>
+                            &gt; status: waiting_for_auth<br/>
+                            &gt; version: 2026.04.12
+                        </div>
+</div>
+</div>
+<!-- Decorative Image Placeholder -->
+<div class="absolute inset-0 opacity-20 grayscale pointer-events-none">
+<img alt="Digital circuits" class="w-full h-full object-cover" data-alt="Abstract macro shot of futuristic glowing circuit boards with blue and purple fiber optic lights and neural network patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmZzc5fLdhsDLtfZgUPjqYdf_eG6nHH7TULGty5G0fSOQ8W8v-1yYFtS11jpnV2cmp0GSZLFN5fxO5Vh4pYYlaiJYXQrgcKNqhFv-ovBECdW1eu0ICZ_-IflAq6uvGycFrCEHQwtbOaAKRTAIZ8gfRemgAxR10RFA4FFiKUtnjjYV7M2Fi1nt90kaALBJvEgSX2jq5HIg6Ioan0M9i1KhMoer97NnIjUUFV_RaquLE4KOhGZfi6aposSPXfmKPCCYkxlgT837lZpQ"/>
+</div>
+</div>
+<!-- Right Side: Sign Up Form -->
+<div class="bg-surface-container-highest p-8 md:p-16 flex flex-col justify-center">
+<div class="mb-8 md:hidden flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">terminal</span>
+<span class="font-headline font-bold text-primary">NEURAL_WORKSPACE</span>
+</div>
+<div class="space-y-2 mb-10">
+<h2 class="text-2xl font-headline font-bold text-on-surface">Crear Cuenta</h2>
+<p class="text-on-surface-variant">Inicia tu viaje en la ingeniería del futuro.</p>
+</div>
+<form class="space-y-6" onsubmit="return false;">
+<!-- Name Field -->
+<div class="space-y-2">
+<label class="font-label text-xs tracking-widest uppercase text-on-surface-variant ml-1" for="name">Nombre Completo</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">person</span>
+<input class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary-container rounded-xl py-4 pl-12 pr-4 text-on-surface placeholder:text-outline transition-all" id="name" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="font-label text-xs tracking-widest uppercase text-on-surface-variant ml-1" for="email">Correo Electrónico</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">alternate_email</span>
+<input class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary-container rounded-xl py-4 pl-12 pr-4 text-on-surface placeholder:text-outline transition-all" id="email" placeholder="ingeniero@neural.io" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<label class="font-label text-xs tracking-widest uppercase text-on-surface-variant ml-1" for="password">Contraseña</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-primary-container rounded-xl py-4 pl-12 pr-12 text-on-surface placeholder:text-outline transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Terms -->
+<div class="flex items-start gap-3 py-2">
+<input class="mt-1 rounded bg-surface-container-lowest border-outline-variant text-primary-container focus:ring-primary-container" id="terms" type="checkbox"/>
+<label class="text-sm text-on-surface-variant leading-tight" for="terms">
+                            Acepto los <a class="text-primary hover:underline" href="#">Términos de Servicio</a> y la <a class="text-primary hover:underline" href="#">Política de Privacidad</a> de Neural Workspace.
+                        </label>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container font-headline font-bold text-lg tracking-wide glow-cyan hover:scale-[1.02] active:scale-[0.98] transition-all duration-300" type="submit">
+                        EMPEZAR EVOLUCIÓN
+                    </button>
+</form>
+<!-- Footer Links -->
+<div class="mt-10 text-center space-y-4">
+<p class="text-on-surface-variant">
+                        ¿Ya tienes una cuenta? <a class="text-primary font-bold hover:underline" href="#">Inicia Sesión</a>
+</p>
+<div class="flex items-center gap-4 py-4">
+<div class="flex-grow h-[1px] bg-outline-variant/20"></div>
+<span class="text-xs font-label uppercase tracking-widest text-outline">O continuar con</span>
+<div class="flex-grow h-[1px] bg-outline-variant/20"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-outline-variant/20 hover:bg-white/5 transition-colors">
+<img alt="Google" class="w-5 h-5" data-alt="Google colorful logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAottlzSXpFXRSreNLq9TDrhELZNgZFu3J1yUed9_JjaufvG_3GFC6_q2UE8v0Hm3O2c35Z330eZUQN1tFnFbJSvTC0LVafOYMhTW77fDi0i-RV_LokX3bgEef5eLQZDY1hmqv2hy9qPyUc7HNSK3EXSyj7RTNmj3hYe5M91o_QP2mnB-a8giDy_AZ9MQyoUm2oFTqsT3ji2rUF-PHg3xZvMyXsVr3N72t-Vx7I4dnlClc1YlNpJ959Xh_52MKFt_Sk7-yBLvuCnRM"/>
+<span class="text-sm font-medium">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-outline-variant/20 hover:bg-white/5 transition-colors">
+<img alt="GitHub" class="w-5 h-5 invert" data-alt="GitHub monochrome logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKWXAT11MruOJmQZBGjg_KuIBrn5jdbcdUgxWuetTYPDVy4HNlNBl44pzXVnDnFMHwpUW7BVgxO-S2VAXA9AXcu-JT4PG2uOIlRZOlI71AZeMOZTs7x3k0MR2snN_oi-QDxDPwtFd8qSbxuHs7Z-WJSvyQKBCDeYqV_mBHrack3zrMc7oCDnwst7O5NzU0qBsya6IGCZxqa06MVtWz34qmT_8_94O8XyxhQ3VIDJZQqhwSBXYZR3zko_ytUr6lrMLKaPYGwXFom5o"/>
+<span class="text-sm font-medium">GitHub</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="p-8 text-center text-outline-variant text-xs font-label tracking-[0.2em] uppercase">
+        © 2026 SOFTWARE_ENGINEERING_NEURAL_NET. ALL RIGHTS RESERVED.
+    </footer>
+</body></html>

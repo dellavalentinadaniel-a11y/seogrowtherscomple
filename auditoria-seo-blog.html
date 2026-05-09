@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Auditoría SEO — Blog seogrowthers.com</title>
+<style>
+  :root {
+    --bg:#0d0f14;--surface:#161923;--surface2:#1e2230;--border:#2a3047;
+    --text:#e8eaf0;--muted:#7a849a;
+    --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--blue:#3b82f6;--purple:#a855f7;--orange:#f97316;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6}
+  a{color:var(--blue);text-decoration:none}
+
+  nav{position:sticky;top:0;z-index:100;background:rgba(13,15,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;gap:0;overflow-x:auto}
+  nav a{color:var(--muted);font-size:12px;padding:12px 14px;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+  nav a:hover{color:var(--text);border-bottom-color:var(--blue)}
+
+  .container{max-width:1300px;margin:0 auto;padding:1.5rem}
+  section{margin-bottom:2.5rem}
+
+  .header{text-align:center;padding:3rem 2rem 2.5rem;background:linear-gradient(135deg,#0d0f14 0%,#1a1f35 50%,#0d0f14 100%);border-bottom:1px solid var(--border)}
+  .header h1{font-size:2rem;font-weight:800;margin-bottom:.4rem}
+  .header .sub{color:var(--muted);font-size:13px;margin-bottom:2rem}
+  .score-ring{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:130px;height:130px;border-radius:50%;border:5px solid var(--red);background:rgba(239,68,68,.05);margin-bottom:.8rem}
+  .score-ring .num{font-size:3rem;font-weight:900;color:var(--red);line-height:1}
+  .score-ring .lbl{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+  .score-tag{display:inline-block;padding:5px 16px;border-radius:999px;font-size:13px;font-weight:700;background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.2rem;text-align:center}
+  .card .n{font-size:2.2rem;font-weight:900;line-height:1}
+  .card .l{font-size:12px;color:var(--muted);margin-top:4px}
+  .red .n{color:var(--red)} .yellow .n{color:var(--yellow)} .green .n{color:var(--green)} .blue .n{color:var(--blue)} .orange .n{color:var(--orange)}
+
+  h2.st{font-size:1.25rem;font-weight:800;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+
+  /* ALERT BOXES */
+  .alert{border-radius:12px;padding:1rem 1.2rem;margin-bottom:.8rem;border-left:4px solid;display:flex;gap:12px;align-items:flex-start}
+  .alert.crit{background:rgba(239,68,68,.07);border-color:var(--red)}
+  .alert.warn{background:rgba(245,158,11,.07);border-color:var(--yellow)}
+  .alert-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+  .alert-title{font-weight:700;margin-bottom:2px}
+  .alert-body{font-size:13px;color:var(--muted);line-height:1.5}
+  code{background:rgba(255,255,255,.07);border-radius:4px;padding:1px 5px;font-size:12px;font-family:monospace}
+
+  /* ARTICLE TABLE */
+  .tbl-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;padding:9px 12px;color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.07em;background:var(--surface);border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:9px 12px;border-bottom:1px solid rgba(42,48,71,.4);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  .ok{color:var(--green);font-weight:700} .warn{color:var(--yellow);font-weight:700} .err{color:var(--red);font-weight:700}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:11px}
+  .b-ok{background:rgba(34,197,94,.15);color:var(--green)}
+  .b-warn{background:rgba(245,158,11,.15);color:var(--yellow)}
+  .b-err{background:rgba(239,68,68,.15);color:var(--red)}
+  .score-cell{font-weight:900;font-size:13px}
+  .bar{height:5px;border-radius:99px;background:var(--border);width:60px;display:inline-block;vertical-align:middle;margin-right:6px}
+  .bar-fill{height:100%;border-radius:99px}
+  .cat-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;background:rgba(59,130,246,.12);color:#93c5fd}
+  .junk-tag{background:rgba(239,68,68,.12);color:#fca5a5}
+  .title-cell{max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* CATEGORY BREAKDOWN */
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.8rem}
+  .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+  .cat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
+  .cat-name{font-weight:700;font-size:.9rem}
+  .cat-score{font-weight:900;font-size:1.1rem}
+  .pbar{height:5px;background:var(--border);border-radius:99px;margin-bottom:.8rem;overflow:hidden}
+  .pbar-fill{height:100%;border-radius:99px}
+  .cat-stats{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+  .cat-stat{display:flex;justify-content:space-between}
+  .cat-stat span:last-child{font-weight:700;color:var(--text)}
+
+  @media(max-width:768px){.header h1{font-size:1.4rem}.container{padding:1rem}}
+  @media print{nav{display:none}.alert,.cat-card{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#resumen">Resumen</a>
+  <a href="#criticos">Problemas Críticos</a>
+  <a href="#categorias">Por Categoría</a>
+  <a href="#articulos">Todos los Artículos</a>
+</nav>
+
+<div class="header" id="inicio">
+  <div class="sub">🗞 Blog · seogrowthers.com · 24 abril 2026 · 20 artículos publicados</div>
+  <h1>Auditoría SEO del Blog</h1>
+  <div style="margin-bottom:1.5rem"></div>
+  <div class="score-ring">
+    <span class="num">32</span>
+    <span class="lbl">/ 100</span>
+  </div>
+  <div><span class="score-tag">🚨 Crítico</span></div>
+</div>
+
+<div class="container">
+
+  <!-- RESUMEN -->
+  <section id="resumen">
+    <h2 class="st">📊 Resumen Ejecutivo</h2>
+    <div class="cards">
+      <div class="card blue"><div class="n">20</div><div class="l">Artículos publicados</div></div>
+      <div class="card red"><div class="n">6</div><div class="l">Artículos basura indexados</div></div>
+      <div class="card red"><div class="n">14</div><div class="l">Sin meta_title</div></div>
+      <div class="card red"><div class="n">14</div><div class="l">Sin meta_description</div></div>
+      <div class="card yellow"><div class="n">6</div><div class="l">Sin imagen destacada</div></div>
+      <div class="card orange"><div class="n">5</div><div class="l">Descripciones cortas (&lt;120c)</div></div>
+      <div class="card yellow"><div class="n">1</div><div class="l">Título demasiado largo</div></div>
+      <div class="card green"><div class="n">12</div><div class="l">Artículos con buen contenido</div></div>
+    </div>
+  </section>
+
+  <!-- CRÍTICOS -->
+  <section id="criticos">
+    <h2 class="st">🔥 Problemas Críticos</h2>
+
+    <div class="alert crit">
+      <div class="alert-icon">🗑</div>
+      <div>
+        <div class="alert-title">6 artículos basura están públicamente indexados por Google</div>
+        <div class="alert-body">
+          Los artículos con IDs <code>1, 2, 3, 5, 6, 12</code> tienen títulos como <em>"ewf"</em>, <em>"ghfbuu7u gfxtx"</em>, <em>"KJG IUGIG GIU"</em>, <em>"PRUEBA"</em> o <em>"Test de Gamificacion"</em>. Están en estado <strong>published</strong> → Google los rastrea, los indexa y degradan la percepción de calidad del sitio (señal negativa de Panda). Deben ponerse en <code>draft</code> de inmediato.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert crit">
+      <div class="alert-icon">🏷</div>
+      <div>
+        <div class="alert-title">14 de 20 artículos sin meta_title ni meta_description definidos</div>
+        <div class="alert-body">
+          El 70% del blog no tiene campos SEO propios. Google usa el <code>title</code> del artículo y recorta texto aleatorio del contenido como snippet. Esto reduce el CTR orgánico y pierde keywords transaccionales. Artículos afectados: IDs 1, 2, 3, 5, 6, 8, 9, 11, 12, 13, 19, 21, 22, 23.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert crit">
+      <div class="alert-icon">🖼</div>
+      <div>
+        <div class="alert-title">6 artículos sin imagen destacada — vistas previas vacías en redes sociales</div>
+        <div class="alert-body">
+          Los artículos de <strong>Crianza Digital</strong> (IDs 31–34), el artículo de documentos IA (ID 13) y el test (ID 12) no tienen <code>featured_image</code>. Al compartirlos en WhatsApp, LinkedIn o X aparece un recuadro vacío. El CTR en redes cae hasta un 40% sin imagen.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert warn">
+      <div class="alert-icon">📏</div>
+      <div>
+        <div class="alert-title">Todos los artículos con meta_description la tienen demasiado corta (&lt;120 chars)</div>
+        <div class="alert-body">
+          Los 5 artículos que sí tienen <code>meta_description</code> definida (IDs 31–34, 25) tienen entre 67 y 98 caracteres. El estándar es 150–160 chars para maximizar el espacio en el SERP. Google amplía o recorta la descripción, pero una descripción propia bien optimizada mejora el CTR.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert warn">
+      <div class="alert-icon">📐</div>
+      <div>
+        <div class="alert-title">ID 8 (Final Fantasy VII Rebirth): título de 78 caracteres — demasiado largo</div>
+        <div class="alert-body">
+          El título del artículo tiene 78 chars. Google corta en ~60 chars en el SERP, mostrando <em>"Final Fantasy VII Rebirth: Análisis completo de la obra maesr…"</em>. Se pierde la keyword <em>"Square Enix"</em> y el resultado parece incompleto.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert warn">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-title">ID 25: resumen contiene HTML crudo — se mostraría como texto en el SERP</div>
+        <div class="alert-body">
+          El campo <code>summary</code> del artículo "una mejor manera de explorar la web" empieza con <code>&lt;blockquote class="border-l-4 border-cyan-500...</code>. Si este campo se usa como fallback para meta description, Google verá etiquetas HTML en el snippet.
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- POR CATEGORÍA -->
+  <section id="categorias">
+    <h2 class="st">📂 Rendimiento por Categoría</h2>
+    <div class="cat-grid">
+
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-name">🧒 Crianza Digital</div>
+          <div class="cat-score" style="color:var(--yellow)">55/100</div>
+        </div>
+        <div class="pbar"><div class="pbar-fill" style="width:55%;background:var(--yellow)"></div></div>
+        <div class="cat-stats">
+          <div class="cat-stat"><span>Artículos</span><span>4</span></div>
+          <div class="cat-stat"><span>Con meta_title</span><span class="ok">4/4</span></div>
+          <div class="cat-stat"><span>Con meta_description</span><span class="warn">4/4 (cortas)</span></div>
+          <div class="cat-stat"><span>Con imagen destacada</span><span class="err">0/4 ✗</span></div>
+          <div class="cat-stat"><span>Contenido suficiente</span><span class="err">0/4 (html &lt;120 bytes)</span></div>
+        </div>
+      </div>
+
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-name">🔍 SEO / Tendencias / Legal / Marketing</div>
+          <div class="cat-score" style="color:var(--yellow)">50/100</div>
+        </div>
+        <div class="pbar"><div class="pbar-fill" style="width:50%;background:var(--yellow)"></div></div>
+        <div class="cat-stats">
+          <div class="cat-stat"><span>Artículos</span><span>6</span></div>
+          <div class="cat-stat"><span>Con meta_title</span><span class="err">1/6 ✗</span></div>
+          <div class="cat-stat"><span>Con meta_description</span><span class="err">1/6 ✗</span></div>
+          <div class="cat-stat"><span>Con imagen destacada</span><span class="ok">5/6</span></div>
+          <div class="cat-stat"><span>Contenido suficiente</span><span class="warn">4/6</span></div>
+        </div>
+      </div>
+
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-name">🎮 Gaming (RPG / PS5 / Guías)</div>
+          <div class="cat-score" style="color:var(--yellow)">48/100</div>
+        </div>
+        <div class="pbar"><div class="pbar-fill" style="width:48%;background:var(--yellow)"></div></div>
+        <div class="cat-stats">
+          <div class="cat-stat"><span>Artículos</span><span>3</span></div>
+          <div class="cat-stat"><span>Con meta_title</span><span class="err">0/3 ✗</span></div>
+          <div class="cat-stat"><span>Con meta_description</span><span class="err">0/3 ✗</span></div>
+          <div class="cat-stat"><span>Con imagen destacada</span><span class="ok">3/3 ✓</span></div>
+          <div class="cat-stat"><span>ID 8 título demasiado largo</span><span class="err">78 chars ✗</span></div>
+        </div>
+      </div>
+
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-name">🗑 Artículos Basura (news)</div>
+          <div class="cat-score" style="color:var(--red)">0/100</div>
+        </div>
+        <div class="pbar"><div class="pbar-fill" style="width:5%;background:var(--red)"></div></div>
+        <div class="cat-stats">
+          <div class="cat-stat"><span>Artículos</span><span class="err">6 (deben eliminarse)</span></div>
+          <div class="cat-stat"><span>Con meta_title</span><span class="err">0/6 ✗</span></div>
+          <div class="cat-stat"><span>Con imagen destacada</span><span class="err">1/6 ✗</span></div>
+          <div class="cat-stat"><span>Contenido real</span><span class="err">0/6 ✗</span></div>
+          <div class="cat-stat"><span>Daño SEO</span><span class="err">CRÍTICO</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TABLA COMPLETA -->
+  <section id="articulos">
+    <h2 class="st">📋 Todos los Artículos</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Fecha</th>
+            <th>Puntuación</th>
+            <th>meta_title</th>
+            <th>meta_desc</th>
+            <th>Imagen</th>
+            <th>Title len</th>
+            <th>Desc len</th>
+            <th>Contenido</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ID 34 -->
+          <tr>
+            <td>34</td>
+            <td class="title-cell" title="Actividades de Desconexión: Recuperando el Tiempo en Familia">Actividades de Desconexión: Recuperando el Tiempo en Familia</td>
+            <td><span class="cat-tag">Crianza Digital</span></td>
+            <td>2026-04-19</td>
+            <td><span class="score-cell warn">48</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="badge b-warn">!</span> 67c</td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="ok">58</span></td>
+            <td><span class="err">67</span></td>
+            <td><span class="err">~91b</span></td>
+            <td class="warn">Mejorable</td>
+          </tr>
+          <!-- ID 33 -->
+          <tr>
+            <td>33</td>
+            <td class="title-cell" title="Disciplina Digital Positiva: Reglas que Funcionan">Disciplina Digital Positiva: Reglas que Funcionan</td>
+            <td><span class="cat-tag">Crianza Digital</span></td>
+            <td>2026-04-19</td>
+            <td><span class="score-cell warn">48</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="badge b-warn">!</span> 74c</td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="ok">50</span></td>
+            <td><span class="err">74</span></td>
+            <td><span class="err">~102b</span></td>
+            <td class="warn">Mejorable</td>
+          </tr>
+          <!-- ID 32 -->
+          <tr>
+            <td>32</td>
+            <td class="title-cell" title="Dopamina y Pantallas: El Efecto en el Cerebro Infantil">Dopamina y Pantallas: El Efecto en el Cerebro Infantil</td>
+            <td><span class="cat-tag">Crianza Digital</span></td>
+            <td>2026-04-19</td>
+            <td><span class="score-cell warn">48</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="badge b-warn">!</span> 93c</td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="ok">50</span></td>
+            <td><span class="err">93</span></td>
+            <td><span class="err">~119b</span></td>
+            <td class="warn">Mejorable</td>
+          </tr>
+          <!-- ID 31 -->
+          <tr>
+            <td>31</td>
+            <td class="title-cell" title="Crianza en la Era Digital: Guía Maestra para el 2026">Crianza en la Era Digital: Guía Maestra para el 2026</td>
+            <td><span class="cat-tag">Crianza Digital</span></td>
+            <td>2026-04-19</td>
+            <td><span class="score-cell warn">48</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="badge b-warn">!</span> 98c</td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="ok">46</span></td>
+            <td><span class="err">98</span></td>
+            <td><span class="err">~112b</span></td>
+            <td class="warn">Mejorable</td>
+          </tr>
+          <!-- ID 25 -->
+          <tr>
+            <td>25</td>
+            <td class="title-cell" title="una mejor manera de explorar la web.">una mejor manera de explorar la web.</td>
+            <td><span class="cat-tag">Debates</span></td>
+            <td>2026-04-18</td>
+            <td><span class="score-cell warn">52</span></td>
+            <td><span class="badge b-warn">!</span> 36c</td>
+            <td><span class="badge b-warn">!</span> 91c + HTML</td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="err">36</span></td>
+            <td><span class="err">91</span></td>
+            <td><span class="ok">~2954b</span></td>
+            <td class="warn">Mejorable</td>
+          </tr>
+          <!-- ID 20 -->
+          <tr>
+            <td>20</td>
+            <td class="title-cell" title="Plan Estratégico AI 2026">Plan Estratégico AI 2026: Liderando el Marketing del Futuro</td>
+            <td><span class="cat-tag">Marketing</span></td>
+            <td>2026-04-12</td>
+            <td><span class="score-cell err">30</span></td>
+            <td><span class="badge b-err">✗</span> vacío</td>
+            <td><span class="badge b-err">✗</span> vacío</td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="err">0</span></td>
+            <td><span class="err">0</span></td>
+            <td><span class="warn">~206b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 23 -->
+          <tr>
+            <td>23</td>
+            <td class="title-cell" title="El Fin de las Cookies y el Resurgir de la Privacidad">El Fin de las Cookies y el Resurgir de la Privacidad</td>
+            <td><span class="cat-tag">Privacidad</span></td>
+            <td>2026-04-12</td>
+            <td><span class="score-cell err">35</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="ok">52</span></td>
+            <td><span class="err">85</span></td>
+            <td><span class="warn">~482b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 19 -->
+          <tr>
+            <td>19</td>
+            <td class="title-cell" title="Total Search y AEO: La Nueva Frontera del SEO en 2026">Total Search y AEO: La Nueva Frontera del SEO en 2026</td>
+            <td><span class="cat-tag">SEO</span></td>
+            <td>2026-04-12</td>
+            <td><span class="score-cell err">38</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="ok">53</span></td>
+            <td><span class="warn">119</span></td>
+            <td><span class="ok">~846b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 21 -->
+          <tr>
+            <td>21</td>
+            <td class="title-cell" title="Guía Total de Tendencias Digitales 2026">Guía Total de Tendencias Digitales 2026</td>
+            <td><span class="cat-tag">Tendencias</span></td>
+            <td>2026-04-12</td>
+            <td><span class="score-cell err">32</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="warn">39</span></td>
+            <td><span class="warn">100</span></td>
+            <td><span class="warn">~451b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 22 -->
+          <tr>
+            <td>22</td>
+            <td class="title-cell" title="Protección de Datos en Latam: Desafíos y Derechos en 2026">Protección de Datos en Latam: Desafíos y Derechos en 2026</td>
+            <td><span class="cat-tag">Legal</span></td>
+            <td>2026-04-12</td>
+            <td><span class="score-cell err">35</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="ok">57</span></td>
+            <td><span class="warn">100</span></td>
+            <td><span class="warn">~379b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 13 -->
+          <tr>
+            <td>13</td>
+            <td class="title-cell" title="Detectar documentos falsificados en la era de la IA">Detectar documentos falsificados en la era de la IA</td>
+            <td><span class="cat-tag">SEO</span></td>
+            <td>2026-04-11</td>
+            <td><span class="score-cell err">38</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="ok">51</span></td>
+            <td><span class="ok">153</span></td>
+            <td><span class="ok">~2426b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 12 -->
+          <tr style="opacity:.6">
+            <td>12</td>
+            <td class="title-cell"><em>Test de Gamificacion</em></td>
+            <td><span class="cat-tag junk-tag">BASURA</span></td>
+            <td>2026-04-10</td>
+            <td><span class="score-cell err">0</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="err">20</span></td>
+            <td><span class="err">35</span></td>
+            <td><span class="err">~32b</span></td>
+            <td class="err">→ BORRAR</td>
+          </tr>
+          <!-- ID 8 -->
+          <tr>
+            <td>8</td>
+            <td class="title-cell" title="Final Fantasy VII Rebirth: Análisis completo de la obra maestra de Square Enix">Final Fantasy VII Rebirth: Análisis completo de la obra maestra de Square Enix</td>
+            <td><span class="cat-tag">RPG</span></td>
+            <td>2026-02-14</td>
+            <td><span class="score-cell err">35</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="err">78</span></td>
+            <td><span class="warn">105</span></td>
+            <td><span class="ok">~715b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 11 -->
+          <tr>
+            <td>11</td>
+            <td class="title-cell" title="El futuro de PlayStation: ¿Qué esperar de la PS5 Pro?">El futuro de PlayStation: ¿Qué esperar de la PS5 Pro?</td>
+            <td><span class="cat-tag">PS5</span></td>
+            <td>2026-02-14</td>
+            <td><span class="score-cell err">35</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="ok">53</span></td>
+            <td><span class="err">87</span></td>
+            <td><span class="warn">~503b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- ID 9 -->
+          <tr>
+            <td>9</td>
+            <td class="title-cell" title="Los mejores SSD para PS5 en 2026: Guía de compra definitiva">Los mejores SSD para PS5 en 2026: Guía de compra definitiva</td>
+            <td><span class="cat-tag">Guías</span></td>
+            <td>2026-02-14</td>
+            <td><span class="score-cell err">35</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-err">✗</span></td>
+            <td><span class="badge b-ok">✓</span></td>
+            <td><span class="ok">59</span></td>
+            <td><span class="err">93</span></td>
+            <td><span class="warn">~541b</span></td>
+            <td class="err">Crítico</td>
+          </tr>
+          <!-- BASURA IDs 1, 2, 3, 5, 6 -->
+          <tr style="opacity:.5">
+            <td>6</td><td><em>PRUEBA</em></td>
+            <td><span class="cat-tag junk-tag">BASURA</span></td>
+            <td>2025-12-30</td><td><span class="score-cell err">0</span></td>
+            <td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td>
+            <td><span class="err">6</span></td><td><span class="err">0</span></td><td><span class="err">~26b</span></td><td class="err">→ BORRAR</td>
+          </tr>
+          <tr style="opacity:.5">
+            <td>5</td><td><em>KJG IUGIG GIU</em></td>
+            <td><span class="cat-tag junk-tag">BASURA</span></td>
+            <td>2025-12-30</td><td><span class="score-cell err">0</span></td>
+            <td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td><td><span class="badge b-ok">✓</span></td>
+            <td><span class="err">14</span></td><td><span class="err">8</span></td><td><span class="warn">~374b</span></td><td class="err">→ BORRAR</td>
+          </tr>
+          <tr style="opacity:.5">
+            <td>3</td><td><em>es45df5rvrg6trg</em></td>
+            <td><span class="cat-tag junk-tag">BASURA</span></td>
+            <td>2025-12-28</td><td><span class="score-cell err">0</span></td>
+            <td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td>
+            <td><span class="err">15</span></td><td><span class="err">0</span></td><td><span class="err">0b</span></td><td class="err">→ BORRAR</td>
+          </tr>
+          <tr style="opacity:.5">
+            <td>2</td><td><em>ewf</em></td>
+            <td><span class="cat-tag junk-tag">BASURA</span></td>
+            <td>2025-12-28</td><td><span class="score-cell err">0</span></td>
+            <td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td>
+            <td><span class="err">3</span></td><td><span class="err">0</span></td><td><span class="err">0b</span></td><td class="err">→ BORRAR</td>
+          </tr>
+          <tr style="opacity:.5">
+            <td>1</td><td><em>ghfbuu7u gfxtx</em></td>
+            <td><span class="cat-tag junk-tag">BASURA</span></td>
+            <td>2025-12-28</td><td><span class="score-cell err">0</span></td>
+            <td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td><td><span class="badge b-err">✗</span></td>
+            <td><span class="err">14</span></td><td><span class="err">0</span></td><td><span class="err">0b</span></td><td class="err">→ BORRAR</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:.6rem;font-size:12px;color:var(--muted)">
+      Columnas: <strong>Title len</strong> ideal 30–60 · <strong>Desc len</strong> ideal 120–160 · <strong>Contenido</strong> en bytes de HTML (ideal &gt;300 bytes)
+    </div>
+  </section>
+
+  <!-- PLAN DE ACCIÓN -->
+  <section id="plan">
+    <h2 class="st">🗺 Plan de Acción Priorizado</h2>
+    <div class="alert crit">
+      <div class="alert-icon">1️⃣</div>
+      <div>
+        <div class="alert-title">HOY — Despublicar artículos basura (IDs 1, 2, 3, 5, 6, 12)</div>
+        <div class="alert-body">Cambiar status a <code>draft</code> en Supabase. Ejecutar:<br><code>UPDATE articles SET status = 'draft' WHERE id IN (1, 2, 3, 5, 6, 12);</code></div>
+      </div>
+    </div>
+    <div class="alert crit">
+      <div class="alert-icon">2️⃣</div>
+      <div>
+        <div class="alert-title">Esta semana — Añadir meta_title + meta_description a artículos de calidad</div>
+        <div class="alert-body">Prioridad: IDs 19, 20, 21, 22, 23, 8, 9, 11, 13. Cada uno necesita un meta_title de 50–60 chars con keyword y una meta_description de 150–160 chars persuasiva.</div>
+      </div>
+    </div>
+    <div class="alert warn">
+      <div class="alert-icon">3️⃣</div>
+      <div>
+        <div class="alert-title">Esta semana — Añadir imágenes destacadas a los 4 artículos de Crianza Digital</div>
+        <div class="alert-body">IDs 31, 32, 33, 34. Sin imagen no se pueden compartir en redes sociales con vista previa.</div>
+      </div>
+    </div>
+    <div class="alert warn">
+      <div class="alert-icon">4️⃣</div>
+      <div>
+        <div class="alert-title">Este mes — Ampliar las meta_descriptions existentes a 150–160 chars</div>
+        <div class="alert-body">Los artículos de Crianza Digital tienen meta_desc de 67–98 chars. Ampliar a 150–160 chars con llamada a la acción.</div>
+      </div>
+    </div>
+    <div class="alert warn">
+      <div class="alert-icon">5️⃣</div>
+      <div>
+        <div class="alert-title">Este mes — Añadir contenido real a los artículos vacíos o cortos</div>
+        <div class="alert-body">Los artículos de Crianza Digital tienen &lt;120 bytes de HTML. Un artículo de blog debe tener mínimo 500 palabras para competir en el SERP.</div>
+      </div>
+    </div>
+  </section>
+
+  <div style="text-align:center;padding:2rem 0 .5rem;color:var(--muted);font-size:12px;border-top:1px solid var(--border)">
+    Auditoría del Blog generada el 24 de abril de 2026 · seogrowthers.com · Puntuación global: <strong style="color:var(--red)">32/100</strong>
+  </div>
+
+</div>
+</body>
+</html>
