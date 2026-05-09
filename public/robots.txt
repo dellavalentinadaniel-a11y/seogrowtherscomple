@@ -1,0 +1,39 @@
+# SEO Growthers - robots.txt
+User-agent: *
+Allow: /
+
+# Block admin and auth paths
+Disallow: /admin
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /auth/
+Disallow: /blog/create
+Disallow: /blog/edit/
+
+# Block utility paths
+Disallow: /assets/
+Disallow: /*.json$
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: https://seogrowthers.com/sitemap.xml
+
+# AI crawlers - allow for AI SEO (AEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Disallow: /

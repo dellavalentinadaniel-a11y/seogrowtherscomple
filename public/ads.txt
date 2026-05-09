@@ -1,0 +1,3 @@
+# ads.txt - SEO Growthers
+# Actualizar con el publisher ID real de Google AdSense cuando se active la monetizacion.
+# Formato: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
