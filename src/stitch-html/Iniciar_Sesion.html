@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#d6a9ff",
+                    "secondary-fixed": "#f0dbff",
+                    "surface-bright": "#383843",
+                    "tertiary-container": "#f7bdff",
+                    "primary-container": "#00e5ff",
+                    "inverse-primary": "#006875",
+                    "surface-container-high": "#282933",
+                    "surface-container": "#1e1f29",
+                    "surface-container-highest": "#33343e",
+                    "inverse-surface": "#e3e1ef",
+                    "primary-fixed": "#9cf0ff",
+                    "on-primary-fixed-variant": "#004f58",
+                    "surface-tint": "#00daf3",
+                    "primary": "#c3f5ff",
+                    "surface-container-low": "#1a1b24",
+                    "surface-dim": "#12131c",
+                    "outline": "#849396",
+                    "secondary": "#ddb7ff",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e3e1ef",
+                    "secondary-fixed-dim": "#ddb7ff",
+                    "secondary-container": "#6f00be",
+                    "on-surface": "#e3e1ef",
+                    "tertiary-fixed": "#fcd6ff",
+                    "on-surface-variant": "#bac9cc",
+                    "outline-variant": "#3b494c",
+                    "on-secondary-fixed-variant": "#6900b3",
+                    "error-container": "#93000a",
+                    "on-primary-container": "#00626e",
+                    "on-tertiary": "#4e155d",
+                    "on-secondary": "#490080",
+                    "on-error": "#690005",
+                    "tertiary": "#ffe5ff",
+                    "surface-container-lowest": "#0d0e17",
+                    "inverse-on-surface": "#2f303a",
+                    "error": "#ffb4ab",
+                    "background": "#12131c",
+                    "surface-variant": "#33343e",
+                    "primary-fixed-dim": "#00daf3",
+                    "on-tertiary-fixed": "#340042",
+                    "tertiary-fixed-dim": "#f3aeff",
+                    "surface": "#12131c",
+                    "on-tertiary-container": "#7c428a",
+                    "on-tertiary-fixed-variant": "#682f76",
+                    "on-secondary-fixed": "#2c0051",
+                    "on-primary": "#00363d",
+                    "on-primary-fixed": "#001f24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neural-bg {
+            background: radial-gradient(circle at 50% 50%, #1a1b24 0%, #0a0b14 100%);
+        }
+        .glow-border:focus-within {
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+            border-color: #00e5ff;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body neural-bg min-h-screen flex items-center justify-center p-6 selection:bg-primary-container selection:text-on-primary-container">
+<main class="relative w-full max-w-md">
+<!-- Background Atmospheric Element -->
+<div class="absolute -top-24 -left-24 w-64 h-64 bg-secondary-container opacity-10 blur-[100px] rounded-full"></div>
+<div class="absolute -bottom-24 -right-24 w-64 h-64 bg-primary-container opacity-10 blur-[100px] rounded-full"></div>
+<!-- Login Container -->
+<div class="relative z-10 backdrop-blur-2xl bg-surface-container-low/60 p-10 rounded-full border border-outline-variant/20 shadow-2xl overflow-hidden">
+<!-- Logo/Brand Anchor Section -->
+<div class="mb-12 text-center">
+<div class="flex items-center justify-center mb-6">
+<div class="p-3 rounded-xl bg-gradient-to-tr from-primary-container to-secondary-container shadow-[0_0_20px_rgba(0,229,255,0.4)]">
+<span class="material-symbols-outlined text-on-primary-fixed text-3xl" data-icon="terminal">terminal</span>
+</div>
+</div>
+<h1 class="font-headline text-3xl font-bold tracking-tight text-primary">NEURAL_WORKSPACE</h1>
+<p class="font-label text-[10px] tracking-[0.2em] text-slate-400 mt-2 uppercase">Protocolo de Acceso 2026</p>
+</div>
+<!-- Form Section -->
+<form class="space-y-6">
+<!-- User Field -->
+<div class="space-y-2 group">
+<label class="font-label text-[10px] uppercase tracking-widest text-secondary ml-1">Identificador_Red</label>
+<div class="relative flex items-center glow-border transition-all duration-300 bg-surface-container-lowest border border-outline-variant/30 rounded-xl">
+<span class="material-symbols-outlined absolute left-4 text-slate-500 text-xl" data-icon="alternate_email">alternate_email</span>
+<input class="w-full bg-transparent border-none py-4 pl-12 pr-4 text-on-surface placeholder:text-slate-600 focus:ring-0 focus:outline-none font-body text-sm" placeholder="ingeniero@neural.com" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2 group">
+<div class="flex justify-between items-center px-1">
+<label class="font-label text-[10px] uppercase tracking-widest text-secondary">Clave_Criptográfica</label>
+<a class="text-[10px] font-label uppercase tracking-widest text-primary/60 hover:text-primary transition-colors" href="#">¿Olvidó Clave?</a>
+</div>
+<div class="relative flex items-center glow-border transition-all duration-300 bg-surface-container-lowest border border-outline-variant/30 rounded-xl">
+<span class="material-symbols-outlined absolute left-4 text-slate-500 text-xl" data-icon="lock">lock</span>
+<input class="w-full bg-transparent border-none py-4 pl-12 pr-12 text-on-surface placeholder:text-slate-600 focus:ring-0 focus:outline-none font-body text-sm" placeholder="••••••••••••" type="password"/>
+<button class="absolute right-4 text-slate-500 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Biometric Section (Neon Architect style) -->
+<div class="py-4">
+<div class="flex items-center gap-4 p-4 rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-high/30 hover:bg-surface-container-high/50 transition-colors cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-primary group-hover:scale-110 transition-transform" data-icon="fingerprint">fingerprint</span>
+<div class="absolute inset-0 bg-primary-container/20 blur-lg rounded-full animate-pulse"></div>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Validación Biométrica</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-tighter">Sensor de Retina / Dactilar Activo</p>
+</div>
+<div class="ml-auto">
+<div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
+</div>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full group relative flex items-center justify-center py-4 bg-primary-container text-on-primary-container rounded-xl font-headline font-bold text-sm tracking-widest overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,229,255,0.5)] active:scale-[0.98]" type="submit">
+<span class="relative z-10 flex items-center gap-2">
+                        INICIAR SECUENCIA
+                        <span class="material-symbols-outlined text-lg" data-icon="arrow_forward">arrow_forward</span>
+</span>
+<div class="absolute inset-0 bg-gradient-to-r from-primary-container via-white/20 to-primary-container translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></div>
+</button>
+</form>
+<!-- Footer Links -->
+<div class="mt-10 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-xs text-slate-500">¿Nuevo en el ecosistema?</p>
+<a class="inline-block mt-2 font-headline text-sm font-bold text-secondary hover:text-on-secondary-container transition-colors" href="#">SOLICITAR ACCESO DE NODO</a>
+</div>
+</div>
+<!-- Decorative Info Card (Asymmetric) -->
+<div class="mt-8 px-6 opacity-40 flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="shield_with_heart" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<div class="space-y-1">
+<p class="text-[10px] font-label uppercase tracking-widest leading-none">Protocolo de Seguridad v4.2</p>
+<p class="text-[9px] text-slate-500">Encriptación cuántica de extremo a extremo habilitada para todas las sesiones de trabajo en el Workspace.</p>
+</div>
+</div>
+</main>
+<!-- Aesthetic Decorative Image Overlays (Non-blocking) -->
+<div class="fixed top-10 right-10 w-32 h-32 opacity-20 pointer-events-none">
+<img alt="" class="w-full h-full object-contain mix-blend-screen" data-alt="abstract 3D wireframe mesh of a neural network with glowing cyan nodes on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRDKMetDIgKiZVVy8_yg_EVRjEJM5b5o0ID8vraMZMwC4Y_T3Kr4dkz0W92r9GLuYvlnFarNSa7nIN9G8GkgOECJXiIcIbO3x1bLLo9YP3bpjlJ4K1_XgMhfXwWHll2jBynfkZceljA-WQb2ShLV20xmesagd0l4a0eLxRVL2sLpLKtWwiqc4l0UJE0I8uqQLZc9-xulUy8Mg0CaHRKekYFRKIb7ULbxXncwOIifYGLXzlBW3Gf5U5zhOW88ypf_OpAUxz2E7kifA"/>
+</div>
+<div class="fixed bottom-10 left-10 w-48 h-48 opacity-10 pointer-events-none rotate-12">
+<img alt="" class="w-full h-full object-contain" data-alt="falling digital matrix code lines in soft purple and cyan gradients with high tech aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxyKP05ACEup35hjul4NIDXuhqZ_yTX5KDLJccHqB55R8VS-0oei1qQhBrzMk0wlz5LGmsuPVxntxfcWY7EPbH5nfr0oo7ud0X4rnfubKzC3YLhxPVBYAtnalKd2cHoPbA3buq4kdespwakA0CCA_Wmw9gQsHpx1lf9ZV9ppdOR9GwumGftSigqBL6hq5EPuKAXTE1X9zvRADgE_PRiVYYQ0tDbULoT5mjuB8XfLtLyaHX8SX-z0OER2g-Pkp9zVWgsJ9YUhCM0rA"/>
+</div>
+</body></html>

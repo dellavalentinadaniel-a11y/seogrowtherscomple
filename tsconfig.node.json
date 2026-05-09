@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "skipLibCheck": true,
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowJs": true,
+        "outDir": "./node_modules/.cache/tsc-node"
+    },
+    "include": [
+        "vite.config.js",
+        "plugins/**/*.js"
+    ]
+}
