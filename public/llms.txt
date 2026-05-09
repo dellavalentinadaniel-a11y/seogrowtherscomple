@@ -1,0 +1,15 @@
+## Pages
+- [Archivo de Noticias - Tech & IA](/news): Explora nuestra colección completa de artículos sobre IA, desarrollo web y las noticias más impactantes del Shock Digital.
+- [Contacto - Agency CMS](/contact): Contáctanos para transformar tu negocio digital.
+- [Contacto - Ponte en Contacto con SEO Growthers](/contact): Contáctanos por formulario, teléfono, email o chat. El equipo de SEO Growthers te responderá en 24 horas. Oficinas en Madrid.
+- [Herramientas Esenciales - Diseño, Dev & Productivity](/tools): Descubre las mejores herramientas de software para diseño, desarrollo, productividad y marketing digital.
+- [Herramientas Premium para Crecimiento Digital | SEO Growthers](/tools): Descubre y compara las mejores herramientas de software recomendadas por SEO Growthers: SEO, Analytics, Marketing y más.
+- [Noticias Tech & Growth - SEO Growthers News](/news): Las últimas noticias sobre inteligencia artificial, SaaS, marketing y tecnología curadas por SEO Growthers.
+- [Noticias y Artículos - SEO Growthers](/articleslist): Últimas noticias, análisis y guías sobre videojuegos y tecnología.
+- [Nuestros Servicios - Soluciones Tech & IA](/services): Desarrollo web moderno, consultoría SEO, implementación de IA y mantenimiento profesional. Transformamos ideas en soluciones digitales exitosas.
+- [Política de Privacidad - AGENCY](/privacy): Política de privacidad y protección de datos de AGENCY.
+- [Recursos Gratuitos para Marketing y Growth | SEO Growthers](/resources): Descarga guías, plantillas y herramientas gratuitas de SEO Growthers para potenciar tu estrategia de marketing digital.
+- [Recursos para Desarrolladores - Guías, Docs y Más](/resources): Colección curada de los mejores recursos para desarrolladores web: guías, documentación, librerías y plantillas.
+- [Términos de Servicio - AGENCY](/terms): Términos y condiciones de uso de los servicios de AGENCY.
+- [Comunidad & Blog - SEO Growthers](/blog): Únete a nuestra comunidad, crea tus propias publicaciones y participa en discusiones sobre tecnología y crecimiento.
+- [Detalle de Artículo - Centro de Conocimiento](/articledetail): Visualización detallada de artículos, guías y noticias con soporte para comentarios interactivos.

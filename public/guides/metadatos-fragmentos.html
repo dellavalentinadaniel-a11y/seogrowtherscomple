@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metadatos y Fragmentos</title>
+<style>
+body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #fff; background-color: #0C0D0D; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+h1 { color: #22d3ee; border-bottom: 1px solid #1e293b; padding-bottom: 10px; }
+h2 { color: #e2e8f0; margin-top: 2rem; }
+h3 { color: #cbd5e1; }
+a { color: #22d3ee; }
+a:hover { color: #67e8f9; }
+ul, ol { padding-left: 20px; }
+li { margin-bottom: 10px; }
+strong { color: #f8fafc; }
+code { background: #1e293b; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+</style>
+</head>
+<body>
+<!DOCTYPE html>\
+<html lang=\"es\">\
+<head>\
+    <meta charset=\"UTF-8\">\
+    <title>Guía Maestra de Metadatos y Fragmentos de Búsqueda</title>\
+</head>\
+<body>\
+    <h1>Guía Maestra de Implementación: Fragmentos y Metadatos de Búsqueda</h1>\
+    <p>Esta guía detalla las prácticas recomendadas en HTML puro para implementar etiquetas de título, metadescripciones y directivas de control de fragmentos, con el objetivo de optimizar la presentación de tu sitio web en los resultados de la Búsqueda de Google.</p>\
+\
+    <h2>1. Optimización de Enlaces de Título (Etiqueta &lt;title&gt;)</h2>\
+    <p>El enlace de título es esencial para proporcionar a los usuarios una idea general sobre el contenido de un resultado y determinar su relevancia [1, 2]. Suelen ser el elemento que más influye al decidir en qué resultado hacer clic [2].</p>\
+    <ul>\
+        <li><strong>Incluye un título en cada página:</strong> Comprueba que exista texto dentro del elemento <code>&lt;title&gt;</code> en el encabezado (<code>&lt;head&gt;</code>) de todas las páginas de tu sitio [2, 3].</li>\
+        <li><strong>Redacta títulos descriptivos y concisos:</strong> Evita las descripciones vagas (como \"Página principal\" o \"Perfil\") y los textos innecesariamente largos, ya que Google trunca los títulos en los resultados para ajustarlos al ancho del dispositivo [2, 3].</li>\
+        <li><strong>Crea títulos únicos:</strong> Evita usar texto repetido o genérico en todas tus páginas [4, 5]. Los usuarios no podrán diferenciar el contenido si todas las páginas se llaman \"Productos a buen precio\" [4, 5]. Si tienes contenido dinámico, actualiza dinámicamente el elemento <code>&lt;title&gt;</code> para reflejar las variaciones [6, 7].</li>\
+        <li><strong>Evita el exceso de palabras clave:</strong> No repitas los mismos términos varias veces; un título saturado no es útil para el usuario y puede hacer que tu sitio parezca engañoso [2, 3].</li>\
+        <li><strong>Incorpora tu marca de forma inteligente:</strong> Añade el nombre de tu sitio al principio o al final del <code>&lt;title&gt;</code>, separándolo del contenido principal mediante un delimitador (como un guion o dos puntos), para evitar que luzca repetitivo en búsquedas que devuelvan múltiples páginas de tu dominio [6, 7].</li>\
+        <li><strong>Mantén la coherencia de idioma:</strong> Utiliza el mismo idioma y sistema de escritura (alfabeto) en tu título que en el contenido principal de la página, para evitar que Google elija un texto alternativo [6, 8].</li>\
+    </ul>\
+\
+    <h2>2. Metadescripciones de Calidad (Etiqueta &lt;meta name=\"description\"&gt;)</h2>\
+    <p>Google utiliza principalmente el contenido visible para generar fragmentos, pero en ocasiones utiliza el elemento HTML de metadescripción si este ofrece a los usuarios una descripción más precisa de la página [9-11].</p>\
+    <ul>\
+        <li><strong>Evita descripciones idénticas:</strong> Crea descripciones que se ajusten con precisión a cada página [12, 13]. Si el sitio es muy grande, prioriza redactar descripciones para las URLs más importantes, como la página principal [12, 13].</li>\
+        <li><strong>Aporta información enriquecida:</strong> Las metadescripciones no se limitan a frases narrativas; puedes incluir información clave claramente etiquetada, como el autor, la fecha, el precio o el fabricante [14, 15]. Por ejemplo: <code>&lt;meta name=\"description\" content=\"Escrito por A.N. Autor, Ilustrado por V. Gogh, Precio: 17,99 USD, Longitud: 784 páginas\"&gt;</code> [16, 17].</li>\
+        <li><strong>Generación automática permitida:</strong> En bases de datos extensas, como tiendas de comercio electrónico, se permite y recomienda generar descripciones de forma programática, siempre que el resultado final sea legible para humanos y variado [16, 17].</li>\
+        <li><strong>No uses simples listas de palabras:</strong> Una metadescripción conformada únicamente por palabras clave separadas por comas (por ejemplo: \"hilo, lápices de colores, máquinas de coser\") no proporciona una idea clara y es poco probable que se utilice como fragmento [18-21].</li>\
+    </ul>\
+\
+    <h2>3. Control Avanzado de Fragmentos (Snippets)</h2>\
+    <p>Si deseas restringir la forma en que Google muestra los resúmenes de tu contenido, puedes aplicar atributos y etiquetas meta específicas [9, 10].</p>\
+    <ul>\
+        <li><strong>Evitar el fragmento por completo:</strong> Para impedir que Google genere y muestre cualquier fragmento de la página, utiliza la etiqueta <code>&lt;meta name=\"robots\" content=\"nosnippet\"&gt;</code> (o simplemente <code>nosnippet</code>) [9, 10].</li>\
+        <li><strong>Ajustar la longitud máxima:</strong> Si prefieres limitar la cantidad de texto que Google puede extraer, indica la longitud máxima deseada mediante <code>&lt;meta name=\"robots\" content=\"max-snippet:[número]\"&gt;</code> [9, 10].</li>\
+        <li><strong>Bloquear partes específicas del contenido:</strong> Si solo deseas excluir ciertas frases o párrafos de un fragmento, envuelve ese contenido en un elemento HTML (como un <code>&lt;span&gt;</code> o <code>&lt;div&gt;</code>) y añádele el atributo <code>data-nosnippet</code> [9, 10].</li>\
+    </ul>\
+\
+    <h2>4. Metadatos de Imágenes</h2>\
+    <p>La información complementaria en el HTML estructural ayuda a Google a indexar correctamente los recursos visuales y a mostrar resultados enriquecidos [22, 23].</p>\
+    <ul>\
+        <li><strong>Atributo alt (Texto alternativo):</strong> Es crucial para la accesibilidad y el SEO. Utiliza descripciones útiles y precisas en lugar de dejarlo vacío o saturarlo de palabras clave [24, 25]. Una opción óptima sería: <code>&lt;img src=\"puppy.jpg\" alt=\"cachorro de dálmata jugando a traer cosas\"&gt;</code> [26].</li>\
+        <li><strong>Nombres de archivo descriptivos:</strong> Los nombres de los archivos de imagen actúan como pistas temáticas. Usa nombres cortos y descriptivos (por ejemplo, <code>my-new-black-kitten.jpg</code>) en lugar de genéricos como <code>1.jpg</code> [27].</li>\
+    </ul>\
+</body>\
+</html>
+</body>
+</html>
